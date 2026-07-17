@@ -11,7 +11,7 @@
       "displayName": "OrcaDub Video Dubbing",
       "source": ".",
       "description": "Dub videos into another language from your agent (upload/URL \u2192 orca/dub via OrcaRouter \u2192 poll \u2192 download). Bundles the @orcadub/mcp server and the dub skill.",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "homepage": "https://orcadub.orcarouter.ai",
       "repository": "https://github.com/Continuum-AI-Corp/orcadub-plugin",
       "license": "MIT",

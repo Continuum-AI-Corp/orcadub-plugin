@@ -80,10 +80,9 @@ optional toggles map to the labels on the [OrcaDub site](https://orcadub.orcarou
 
 | Site label | Parameter | Site label | Parameter |
 |---|---|---|---|
-| Keep background audio | `preserve_bgm` | Translation quality gate | `comet_enabled` |
-| Overlay watermark | `watermark` | Loudness matching | `loudness_enabled` |
-| Remove watermark / subtitles (paid) | `remove_watermark` | Localise idioms | `adapt_idioms` |
-| Translate songs | `song_translation` | | |
+| Keep background audio | `preserve_bgm` | Loudness matching | `loudness_enabled` |
+| Overlay watermark | `watermark` | Translate songs | `song_translation` |
+| Remove watermark / subtitles (paid) | `remove_watermark` | | |
 
 See [`skills/orcadub/SKILL.md`](skills/orcadub/SKILL.md) for details.
 

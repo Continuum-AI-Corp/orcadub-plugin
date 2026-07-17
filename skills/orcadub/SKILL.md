@@ -50,9 +50,7 @@ https://orcadub.orcarouter.ai.
 | Keep background audio | `preserve_bgm` | Keep music/SFX via source separation |
 | Overlay watermark | `watermark` | Burn the watermark onto the output |
 | Remove watermark / subtitles (paid) | `remove_watermark` | Paid add-on that erases source logo/subtitles — confirm explicitly, it costs extra |
-| Translation quality gate | `comet_enabled` | COMET machine-translation quality gate |
 | Loudness matching | `loudness_enabled` | EBU R128 loudness-match gate on the final mux |
-| Localise idioms | `adapt_idioms` | Render idioms as natural target-language equivalents |
 | Translate songs | `song_translation` | Dub sung segments instead of passing the original audio through |
 
 Additional advanced parameters exist in the MCP tool schema (e.g. glossary,
