@@ -4,7 +4,7 @@
 
 ### Translate any video. Keep the voice.
 
-**Claude Code plugin for [OrcaDub](https://orcadub.orcarouter.ai) — AI video dubbing.**
+**AI video dubbing for your agent — the `orcadub` skill + the [`@orcadub/mcp`](https://www.npmjs.com/package/@orcadub/mcp) server.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
@@ -14,24 +14,53 @@
 
 ---
 
-This plugin bundles the [`@orcadub/mcp`](https://www.npmjs.com/package/@orcadub/mcp)
-server **and** a `dub` skill, so Claude Code (or any host that supports Claude
-Code plugins) can dub a video into another language conversationally: upload a
-file or pass a URL, submit a job to the `orca/dub` model through the
-[OrcaRouter](https://www.orcarouter.ai) gateway, poll progress, and download
-the finished MP4.
+Give any agent the ability to dub a video into another language
+conversationally: upload a file or pass a URL, submit a job to the `orca/dub`
+model through the [OrcaRouter](https://www.orcarouter.ai) gateway, poll
+progress, and download the finished MP4.
+
+Two components, each portable on its own:
+
+- **MCP server** [`@orcadub/mcp`](https://www.npmjs.com/package/@orcadub/mcp) —
+  works in **any** MCP client (Claude Code, Claude Desktop, Codex, Cursor,
+  Windsurf, …).
+- **Skill `orcadub`** — a plain `SKILL.md` workflow guide for skill-capable
+  agents (Claude Code/Desktop, Codex, …): when to dub, ask for required
+  parameters before the billed submit, poll etiquette, confirm before
+  downloading.
 
 ## Install
+
+**Claude Code — one-click plugin (MCP + skill):**
 
 ```
 /plugin marketplace add Continuum-AI-Corp/orcadub-plugin
 /plugin install orcadub@orcadub-skills
 ```
 
-On install you'll be prompted for your **OrcaRouter API key** (`sk-orca-...`) —
-create one at [the OrcaRouter console](https://www.orcarouter.ai/console) (token
-management page). The key is stored by Claude Code and passed to the MCP server
-as `ORCADUB_API_KEY`; dubbing jobs are billed per minute of source video.
+**Codex — one-click plugin (MCP + skill):**
+
+```bash
+codex plugin marketplace add Continuum-AI-Corp/orcadub-plugin
+codex plugin add orcadub@orcadub-skills
+```
+
+**Any other MCP client — server only, then optionally copy the skill:**
+
+```bash
+# Cursor / Windsurf / Claude Desktop etc.: add a stdio server with
+#   command: npx   args: -y @orcadub/mcp   env: ORCADUB_API_KEY=sk-orca-...
+# (per-host config files: see the MCP server repo linked below)
+
+# Optional, for skill-capable agents:
+cp -r skills/orcadub ~/.claude/skills/orcadub   # Claude Code / Desktop
+cp -r skills/orcadub ~/.codex/skills/orcadub    # Codex
+```
+
+You'll need an **OrcaRouter API key** (`sk-orca-...`) — create one at
+[the OrcaRouter console](https://www.orcarouter.ai/console) (token management
+page). The plugin prompts for it on install and passes it to the MCP server as
+`ORCADUB_API_KEY`; dubbing jobs are billed per minute of source video.
 
 ## Use
 
@@ -39,9 +68,9 @@ Just ask:
 
 > Dub this into Japanese: https://www.youtube.com/watch?v=…
 
-The bundled `dub` skill drives the whole flow — it confirms the required
-details (source/target language, the source file or URL, a title), submits the
-job, polls until it's done, then asks whether to save the MP4 locally.
+The `orcadub` skill drives the whole flow — it confirms the required details
+(source/target language, the source file or URL, a title), submits the job,
+polls until it's done, then asks whether to save the MP4 locally.
 
 ## Dubbing options
 
@@ -56,33 +85,21 @@ optional toggles map to the labels on the [OrcaDub site](https://orcadub.orcarou
 | Remove watermark / subtitles (paid) | `remove_watermark` | Localise idioms | `adapt_idioms` |
 | Translate songs | `song_translation` | | |
 
-See [`skills/dub/SKILL.md`](skills/dub/SKILL.md) for details.
-
-## Use as a standalone skill
-
-The `dub` skill is a plain `SKILL.md` — any skill-capable agent can use it
-without the plugin. Copy it into your agent's skills directory and point the
-agent at the `@orcadub/mcp` server (`ORCADUB_API_KEY` set):
-
-```bash
-# Claude Code / Claude Desktop
-cp -r skills/dub ~/.claude/skills/dub
-# Codex
-cp -r skills/dub ~/.codex/skills/dub
-```
+See [`skills/orcadub/SKILL.md`](skills/orcadub/SKILL.md) for details.
 
 ## What's inside
 
 | Component | What it does |
 |---|---|
 | MCP server `@orcadub/mcp` | 5 tools: `dub_health`, `dub_upload`, `dub_create`, `dub_get`, `dub_download` |
-| Skill `dub` | Teaches the agent when to dub and how to run the upload → create → poll → download flow (asks before billing, confirms before downloading) |
+| Skill `orcadub` | Teaches the agent when to dub and how to run the upload → create → poll → download flow (asks before billing, confirms before downloading) |
 
-## Without the plugin
+## MCP server details
 
-Prefer to wire the MCP server directly (Cursor, Windsurf, Codex, plain Claude
-Code)? See [orcadub-mcp-server](https://github.com/Continuum-AI-Corp/orcadub-mcp-server)
-for per-host config and `npx -y @orcadub/mcp` usage.
+Per-host configuration examples (Cursor, Windsurf, Claude Desktop, Codex),
+Docker usage, prebuilt binaries and the tool reference live in the
+[orcadub-mcp-server](https://github.com/Continuum-AI-Corp/orcadub-mcp-server)
+repository.
 
 ## License
 
