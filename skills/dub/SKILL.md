@@ -1,25 +1,27 @@
 ---
 name: dub
-description: Dub a video into another language with the OrcaDub service (OrcaRouter model orca/dub) via the orcadub MCP tools (dub_upload / dub_create / dub_get / dub_download). Use whenever the user wants to dub, translate, or re-voice a video into another language, submit a dubbing job, check a dubbing job's status, or fetch a dubbed result — e.g. "dub this video into English", "dub this YouTube video into Japanese", "is the dubbing job done?", "download the dubbed result". Requires an OrcaRouter API key (the plugin prompts for it on install).
+description: Dub a video into another language with the OrcaDub service (OrcaRouter model orca/dub) via the orcadub MCP tools (dub_upload / dub_create / dub_get / dub_download). Use whenever the user wants to dub, translate, or re-voice a video into another language, submit a dubbing job, check a dubbing job's status, or fetch a dubbed result — e.g. "dub this video into English", "dub this YouTube video into Japanese", "is the dubbing job done?", "download the dubbed result". Requires the orcadub MCP server with an OrcaRouter API key.
 ---
 
 # OrcaDub dubbing workflow
 
 OrcaDub translates + re-voices a video (ASR -> translate -> TTS voice clone
 -> align -> mux). All requests go through the OrcaRouter gateway, which routes
-them to the `orca/dub` model — the MCP server attaches the routing field
-automatically. Jobs are asynchronous: create, then poll.
+them to the `orca/dub` model. Jobs are asynchronous: create, then poll.
 
-## Prerequisites — OrcaRouter authorization
+## Prerequisites
 
-- These tools require an OrcaRouter API key (`sk-orca-...`). The plugin
-  prompts for it on install and passes it to the server as `ORCADUB_API_KEY`.
-  Get a key at https://www.orcarouter.ai/console (token management page).
+- This skill drives the **orcadub MCP server** — any agent that can run MCP
+  servers works (Claude Code, Claude Desktop, Codex, Cursor, …). The server
+  is launched as `npx -y @orcadub/mcp` with the `ORCADUB_API_KEY` environment
+  variable set to an OrcaRouter key (`sk-orca-...`, from
+  https://www.orcarouter.ai/console). If you installed the OrcaDub Claude Code
+  plugin, you were prompted for the key on install; other agents set it in
+  their MCP config.
 - While the key is missing/invalid, every `dub_*` call returns a
   "not authorized" error with the sign-up link — give the user the link,
   have them set the key, then retry.
-- If the `dub_*` tools are missing entirely, the MCP server isn't connected —
-  have the user check `/plugin` and restart the session.
+- If the `dub_*` tools are missing entirely, the MCP server isn't connected.
 
 ## Required parameters — ASK, never guess
 
@@ -37,55 +39,25 @@ missing, ASK (in Claude Code use the question tool) instead of assuming:
 Language codes: `en zh ja ko fr de es pt ru ar it hi tr th vi id bn pl nl uk
 fil el cs sv da no fi sk`.
 
-## Optional parameters (mirror the OrcaDub site's options)
+## Options (the toggles on the OrcaDub site)
 
-Set these only when the user asks for the behaviour — deploy defaults are
-tuned. Booleans accept true/false. The "Site label" column matches the
-toggle names on https://orcadub.orcarouter.ai.
+Optional booleans, off by default unless the deploy sets otherwise. Set one
+only when the user asks for that behaviour; the labels match the toggles on
+https://orcadub.orcarouter.ai.
 
-**Content & translation**
-
-| Parameter | Site label | Meaning |
+| Site label | Parameter | Meaning |
 |---|---|---|
-| `profile` | Content preset | `movie` \| `podcast` \| `lecture` \| `music_video` \| `short_drama` \| `ad_creative` |
-| `translation_style` | Translation style | `formal` \| `casual` \| `literary` \| `news` \| `drama` \| `humorous` \| `business` \| `cute` |
-| `glossary` | Glossary | Pinned source->target term renderings, up to 64 entries |
-| `adapt_idioms` | Localise idioms | Render idioms as natural target-language equivalents |
-| `comet_enabled` | Translation quality gate | COMET machine-translation quality gate |
-| `song_translation` | Translate songs | Dub sung segments instead of passing the original audio through |
+| Keep background audio | `preserve_bgm` | Keep music/SFX via source separation |
+| Overlay watermark | `watermark` | Burn the watermark onto the output |
+| Remove watermark / subtitles (paid) | `remove_watermark` | Paid add-on that erases source logo/subtitles — confirm explicitly, it costs extra |
+| Translation quality gate | `comet_enabled` | COMET machine-translation quality gate |
+| Loudness matching | `loudness_enabled` | EBU R128 loudness-match gate on the final mux |
+| Localise idioms | `adapt_idioms` | Render idioms as natural target-language equivalents |
+| Translate songs | `song_translation` | Dub sung segments instead of passing the original audio through |
 
-**Voice & TTS**
-
-| Parameter | Site label | Meaning |
-|---|---|---|
-| `tts_backend` | TTS backend | `qwen3` \| `higgs` |
-| `project_id` | Project | Cross-job character-voice memory |
-| `speaker_assignments` | Speaker assignments | ASR diarization label -> character id (requires `project_id`) |
-| `voice_clone_consent` | Voice clone consent | Attest rights/consent to clone the source voices |
-
-**Audio bed & mix**
-
-| Parameter | Site label | Meaning |
-|---|---|---|
-| `preserve_bgm` | Keep background audio | Keep music/SFX via source separation |
-| `bed_level_match` | Bed level match | Match bed loudness to broadcast level |
-| `bed_duck` | Bed ducking | Duck the bed under dialog |
-| `bed_reverb_preset` | Bed reverb | `none` \| `small_room` \| `hall` \| `outdoor` |
-| `loudness_enabled` | Loudness matching | EBU R128 loudness-match gate on the final mux |
-
-**Alignment & video output**
-
-| Parameter | Site label | Meaning |
-|---|---|---|
-| `align_per_word` | Per-word alignment | Per-word forced-alignment atempo |
-| `lipsync` | Lipsync | Enable lipsync |
-| `lipsync_visemes` | Viseme-aware lipsync | Viseme-aware lipsync plan |
-| `lipsync_identity_guard` | Face-identity guard | Post-lipsync face-identity guard |
-| `watermark` | Overlay watermark | Burn the watermark |
-| `remove_watermark` | Remove watermark / subtitles (paid) | Paid MPS add-on; confirm explicitly — it costs extra |
-| `resolution` | Output resolution | `source` \| `720p` \| `1080p` \| `2k` |
-| `ratio` | Output ratio | `source` \| `16:9` \| `9:16` \| `1:1` |
-| `compact_output` | Compact output | Re-encode a smaller final mp4 |
+Additional advanced parameters exist in the MCP tool schema (e.g. glossary,
+translation_style, content profile, resolution) — set them only on the user's
+explicit request.
 
 ## Standard flow
 
@@ -129,8 +101,7 @@ toggle names on https://orcadub.orcarouter.ai.
 ```
 dub_create {"source_lang":"en","target_lang":"ja",
             "url":"https://www.youtube.com/watch?v=...",
-            "profile":"lecture","preserve_bgm":true,
-            "glossary":{"OrcaRouter":"OrcaRouter"}}
+            "preserve_bgm":true}
 -> {"id":"<job>","status":"queued"}
 -> dub_get {"video_id":"<job>"} until completed
 -> confirm download -> dub_download {"video_id":"<job>","dest":"./out.mp4"}

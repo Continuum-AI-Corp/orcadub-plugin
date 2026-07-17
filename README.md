@@ -45,10 +45,9 @@ job, polls until it's done, then asks whether to save the MP4 locally.
 
 ## Dubbing options
 
-`dub_create` mirrors the options on the [OrcaDub site](https://orcadub.orcarouter.ai).
-Required: `source_lang`, `target_lang`, a source (`file_id` from `dub_upload`
-**or** a remote `url`), and `video_name` (with `file_id`). The toggles map to
-the site labels:
+`dub_create` requires `source_lang`, `target_lang`, a source (`file_id` from
+`dub_upload` **or** a remote `url`), and `video_name` (with `file_id`). The
+optional toggles map to the labels on the [OrcaDub site](https://orcadub.orcarouter.ai):
 
 | Site label | Parameter | Site label | Parameter |
 |---|---|---|---|
@@ -57,12 +56,20 @@ the site labels:
 | Remove watermark / subtitles (paid) | `remove_watermark` | Localise idioms | `adapt_idioms` |
 | Translate songs | `song_translation` | | |
 
-Plus: `profile`, `translation_style`, `glossary`, `tts_backend`,
-`project_id` / `speaker_assignments`, `bed_level_match` / `bed_duck` /
-`bed_reverb_preset`, `align_per_word`, `lipsync` / `lipsync_visemes` /
-`lipsync_identity_guard`, `resolution`, `ratio`, `compact_output`,
-`voice_clone_consent`. The full reference (with every value) is in
-[`skills/dub/SKILL.md`](skills/dub/SKILL.md).
+See [`skills/dub/SKILL.md`](skills/dub/SKILL.md) for details.
+
+## Use as a standalone skill
+
+The `dub` skill is a plain `SKILL.md` — any skill-capable agent can use it
+without the plugin. Copy it into your agent's skills directory and point the
+agent at the `@orcadub/mcp` server (`ORCADUB_API_KEY` set):
+
+```bash
+# Claude Code / Claude Desktop
+cp -r skills/dub ~/.claude/skills/dub
+# Codex
+cp -r skills/dub ~/.codex/skills/dub
+```
 
 ## What's inside
 
