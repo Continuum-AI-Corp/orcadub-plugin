@@ -1,7 +1,7 @@
 {
   "name": "orcadub",
   "displayName": "OrcaDub Video Dubbing",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dub videos into another language from your agent \u2014 upload or pass a URL, submit to the orca/dub model via OrcaRouter, poll, and download the result. Bundles the @orcadub/mcp server and the dub workflow skill.",
   "author": {
     "name": "Continuum AI",
