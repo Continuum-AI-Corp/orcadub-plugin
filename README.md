@@ -25,7 +25,7 @@ the finished MP4.
 
 ```
 /plugin marketplace add Continuum-AI-Corp/orcadub-plugin
-/plugin install orcadub@orcadub
+/plugin install orcadub@orcadub-skills
 ```
 
 On install you'll be prompted for your **OrcaRouter API key** (`sk-orca-...`) —
@@ -42,6 +42,27 @@ Just ask:
 The bundled `dub` skill drives the whole flow — it confirms the required
 details (source/target language, the source file or URL, a title), submits the
 job, polls until it's done, then asks whether to save the MP4 locally.
+
+## Dubbing options
+
+`dub_create` mirrors the options on the [OrcaDub site](https://orcadub.orcarouter.ai).
+Required: `source_lang`, `target_lang`, a source (`file_id` from `dub_upload`
+**or** a remote `url`), and `video_name` (with `file_id`). The toggles map to
+the site labels:
+
+| Site label | Parameter | Site label | Parameter |
+|---|---|---|---|
+| Keep background audio | `preserve_bgm` | Translation quality gate | `comet_enabled` |
+| Overlay watermark | `watermark` | Loudness matching | `loudness_enabled` |
+| Remove watermark / subtitles (paid) | `remove_watermark` | Localise idioms | `adapt_idioms` |
+| Translate songs | `song_translation` | | |
+
+Plus: `profile`, `translation_style`, `glossary`, `tts_backend`,
+`project_id` / `speaker_assignments`, `bed_level_match` / `bed_duck` /
+`bed_reverb_preset`, `align_per_word`, `lipsync` / `lipsync_visemes` /
+`lipsync_identity_guard`, `resolution`, `ratio`, `compact_output`,
+`voice_clone_consent`. The full reference (with every value) is in
+[`skills/dub/SKILL.md`](skills/dub/SKILL.md).
 
 ## What's inside
 
