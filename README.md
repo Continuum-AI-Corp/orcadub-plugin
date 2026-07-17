@@ -24,7 +24,7 @@ Two components, each portable on its own:
 - **MCP server** [`@orcadub/mcp`](https://www.npmjs.com/package/@orcadub/mcp) —
   works in **any** MCP client (Claude Code, Claude Desktop, Codex, Cursor,
   Windsurf, …).
-- **Skill `orcadub`** — a plain `SKILL.md` workflow guide for skill-capable
+- **Skill `dub-video`** — a plain `SKILL.md` workflow guide for skill-capable
   agents (Claude Code/Desktop, Codex, …): when to dub, ask for required
   parameters before the billed submit, poll etiquette, confirm before
   downloading.
@@ -52,9 +52,9 @@ codex plugin add orcadub@orcadub-skills
 #   command: npx   args: -y @orcadub/mcp   env: ORCADUB_API_KEY=sk-orca-...
 # (per-host config files: see the MCP server repo linked below)
 
-# Optional, for skill-capable agents:
-cp -r skills/orcadub ~/.claude/skills/orcadub   # Claude Code / Desktop
-cp -r skills/orcadub ~/.codex/skills/orcadub    # Codex
+# Optional, for skill-capable agents (install into an orcadub/ folder):
+cp -r skills/dub-video ~/.claude/skills/orcadub   # Claude Code / Desktop
+cp -r skills/dub-video ~/.codex/skills/orcadub    # Codex
 ```
 
 You'll need an **OrcaRouter API key** (`sk-orca-...`) — create one at
@@ -68,7 +68,7 @@ Just ask:
 
 > Dub this into Japanese: https://www.youtube.com/watch?v=…
 
-The `orcadub` skill drives the whole flow — it confirms the required details
+The `dub-video` skill drives the whole flow — it confirms the required details
 (source/target language, the source file or URL, a title), submits the job,
 polls until it's done, then asks whether to save the MP4 locally.
 
@@ -84,14 +84,14 @@ optional toggles map to the labels on the [OrcaDub site](https://orcadub.orcarou
 | Overlay watermark | `watermark` | Translate songs | `song_translation` |
 | Remove watermark / subtitles (paid) | `remove_watermark` | | |
 
-See [`skills/orcadub/SKILL.md`](skills/orcadub/SKILL.md) for details.
+See [`skills/dub-video/SKILL.md`](skills/dub-video/SKILL.md) for details.
 
 ## What's inside
 
 | Component | What it does |
 |---|---|
 | MCP server `@orcadub/mcp` | 5 tools: `dub_health`, `dub_upload`, `dub_create`, `dub_get`, `dub_download` |
-| Skill `orcadub` | Teaches the agent when to dub and how to run the upload → create → poll → download flow (asks before billing, confirms before downloading) |
+| Skill `dub-video` | Teaches the agent when to dub and how to run the upload → create → poll → download flow (asks before billing, confirms before downloading) |
 
 ## MCP server details
 

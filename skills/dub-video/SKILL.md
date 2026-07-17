@@ -1,5 +1,5 @@
 ---
-name: orcadub
+name: dub-video
 description: Dub a video into another language with the OrcaDub service (OrcaRouter model orca/dub) via the orcadub MCP tools (dub_upload / dub_create / dub_get / dub_download). Use whenever the user wants to dub, translate, or re-voice a video into another language, submit a dubbing job, check a dubbing job's status, or fetch a dubbed result — e.g. "dub this video into English", "dub this YouTube video into Japanese", "is the dubbing job done?", "download the dubbed result". Requires the orcadub MCP server with an OrcaRouter API key.
 ---
 
