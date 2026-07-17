@@ -1,0 +1,40 @@
+{
+  "name": "orcadub",
+  "displayName": "OrcaDub Video Dubbing",
+  "version": "1.0.0",
+  "description": "Dub videos into another language from your agent \u2014 upload or pass a URL, submit to the orca/dub model via OrcaRouter, poll, and download the result. Bundles the @orcadub/mcp server and the dub workflow skill.",
+  "author": {
+    "name": "Continuum AI",
+    "url": "https://github.com/Continuum-AI-Corp"
+  },
+  "homepage": "https://orcadub.orcarouter.ai",
+  "repository": "https://github.com/Continuum-AI-Corp/orcadub-plugin",
+  "license": "MIT",
+  "keywords": [
+    "video",
+    "dubbing",
+    "translation",
+    "orcadub",
+    "orcarouter",
+    "mcp"
+  ],
+  "mcpServers": {
+    "orcadub": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@orcadub/mcp"
+      ],
+      "env": {
+        "ORCADUB_API_KEY": "${user_config.orcadub_api_key}"
+      }
+    }
+  },
+  "userConfig": {
+    "orcadub_api_key": {
+      "type": "string",
+      "title": "OrcaRouter API Key",
+      "description": "Your sk-orca-... API key. Create one at https://www.orcarouter.ai/console (token management page)."
+    }
+  }
+}
