@@ -58,10 +58,10 @@ https://orcadub.orcarouter.ai. Pass them to `create` as repeatable
 
 Additional advanced `--opt` keys exist (set them only on the user's explicit
 request): `adapt_idioms`, `comet_enabled`, `bed_level_match`, `bed_duck`,
-`bed_reverb_preset`, `align_per_word`, `lipsync`, `lipsync_visemes`,
-`lipsync_identity_guard`, `compact_output`, `voice_clone_consent` (bools);
-`profile`, `translation_style`, `tts_backend`, `project_id`, `resolution`,
-`ratio` (strings); `glossary.<term>=<rendering>` and
+`align_per_word`, `lipsync`, `lipsync_visemes`, `lipsync_identity_guard`,
+`compact_output`, `voice_clone_consent` (bools); `profile`,
+`translation_style`, `tts_backend`, `project_id`, `resolution`, `ratio`,
+`bed_reverb_preset` (strings); `glossary.<term>=<rendering>` and
 `speaker_assignments.<label>=<charid>` (maps).
 
 ## Standard flow
