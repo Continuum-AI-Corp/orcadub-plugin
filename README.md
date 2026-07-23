@@ -45,12 +45,28 @@ codex plugin marketplace add Continuum-AI-Corp/orcadub-plugin
 codex plugin add orcadub@orcadub-skills
 ```
 
-**Any agent — install the skill directly:**
+**Any supported agent — guided CLI installation:**
+
+```bash
+npx -y @orcadub/cli skill install
+
+# Non-interactive examples:
+npx -y @orcadub/cli skill install --platform codex --scope global --yes
+npx -y @orcadub/cli skill install \
+  --platform claude --platform cursor --scope project --yes
+```
+
+The installer detects existing agent platforms and supports project/global
+installation across its 33-platform catalog. It downloads this repository's
+canonical `dub-video` skill, preserves differing existing content unless
+`--force` is supplied, and supports structured `--json` output.
+
+**Manual installation fallback:**
 
 ```bash
 # Copy the skill (install into an orcadub/ folder):
 cp -r skills/dub-video ~/.claude/skills/orcadub   # Claude Code / Desktop
-cp -r skills/dub-video ~/.codex/skills/orcadub    # Codex
+cp -r skills/dub-video ~/.agents/skills/orcadub   # Codex
 
 # Make sure Node is available so the skill can run `npx -y @orcadub/cli`
 # (or put a prebuilt `orcadub` binary on PATH), and export your API key:
