@@ -57,9 +57,10 @@ npx -y @orcadub/cli skill install \
 ```
 
 The installer detects existing agent platforms and supports project/global
-installation across its 33-platform catalog. It downloads this repository's
-canonical `dub-video` skill, preserves differing existing content unless
-`--force` is supplied, and supports structured `--json` output.
+installation across 36 platforms, including Hermes, OpenClaw, and Command
+Code. It downloads this repository's canonical `dub-video` skill, preserves
+differing existing content unless `--force` is supplied, and supports
+structured `--json` output.
 
 **Manual installation fallback:**
 
