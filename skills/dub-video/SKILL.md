@@ -1,6 +1,6 @@
 ---
 name: dub-video
-description: Dub a video into another language with the OrcaDub service (OrcaRouter model orca/dub) via the `@orcadub/cli` command-line tool (`npx -y @orcadub/cli <subcommand>`). Use whenever the user wants to dub, translate, or re-voice a video into another language, submit a dubbing job, check a dubbing job's status, or fetch a dubbed result — e.g. "dub this video into English", "dub this YouTube video into Japanese", "is the dubbing job done?", "download the dubbed result". Requires an OrcaRouter API key in `ORCADUB_API_KEY` and Node (for `npx`) or the orcadub binary on PATH.
+description: Dub a video into another language with the OrcaDub service (OrcaRouter model orca/dub) via the `@orcadub/cli` command-line tool (`npx -y @orcadub/cli SUBCOMMAND`). Use whenever the user wants to dub, translate, or re-voice a video into another language, submit a dubbing job, check a dubbing job's status, or fetch a dubbed result — e.g. "dub this video into English", "dub this YouTube video into Japanese", "is the dubbing job done?", "download the dubbed result". Requires an OrcaRouter API key in `ORCADUB_API_KEY` and Node (for `npx`) or the orcadub binary on PATH.
 ---
 
 # OrcaDub dubbing workflow
@@ -100,8 +100,11 @@ request): `adapt_idioms`, `comet_enabled`, `bed_level_match`, `bed_duck`,
 - If the command fails to launch (command not found / npx cannot fetch the
   package), Node/npx is unavailable or the network blocked the download —
   install Node or drop in the prebuilt binary.
-- 402 insufficient_credit -> top up on OrcaRouter (per-minute billing);
-  429 free_quota_exceeded -> free-tier limit hit.
+- 402 `insufficient_credit` -> do not retry. Tell the user their OrcaRouter
+  balance is insufficient and give them this top-up link:
+  https://www.orcarouter.ai/console/billing. Retry only after they confirm
+  that they have added funds.
+- 429 `free_quota_exceeded` -> free-tier limit hit.
 - `task_not_exist` on `get` -> the id wasn't created here (or a typo); use
   the id exactly as returned by `create`.
 - Job listing / cancel / delete aren't exposed — manage those in the
